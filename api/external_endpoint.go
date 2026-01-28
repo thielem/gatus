@@ -76,14 +76,6 @@ func CreateExternalEndpointResult(cfg *config.Config) fiber.Handler {
 			}
 		}
 		// Check if an alert should be triggered or resolved
-		inEndpointMaintenanceWindow := false
-		for _, maintenanceWindow := range externalEndpoint.MaintenanceWindows {
-			if maintenanceWindow.IsUnderMaintenance() {
-				logr.Debug("[api.CreateExternalEndpointResult] Under endpoint maintenance window")
-				inEndpointMaintenanceWindow = true
-				break
-			}
-		}
 		if !cfg.Maintenance.IsUnderMaintenance() && !inEndpointMaintenanceWindow {
 			watchdog.HandleAlerting(convertedEndpoint, result, cfg.Alerting)
 			externalEndpoint.NumberOfSuccessesInARow = convertedEndpoint.NumberOfSuccessesInARow

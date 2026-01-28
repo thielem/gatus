@@ -92,20 +92,6 @@ func TestExternalEndpoint_ValidateAndSetDefaults(t *testing.T) {
 			},
 			wantErr: ErrEndpointWithNoName,
 		},
-		{
-			name: "valid-with-maintenance-windows",
-			endpoint: &ExternalEndpoint{
-				Name:  "test-endpoint",
-				Token: "valid-token",
-				MaintenanceWindows: []*maintenance.Config{
-					{
-						Start:    "02:00",
-						Duration: time.Hour,
-					},
-				},
-			},
-			wantErr: nil,
-		},
 	}
 
 	for _, tt := range tests {
@@ -320,9 +306,6 @@ func TestExternalEndpoint_ToEndpoint(t *testing.T) {
 			}
 			if result.NumberOfSuccessesInARow != tt.externalEndpoint.NumberOfSuccessesInARow {
 				t.Errorf("Expected NumberOfSuccessesInARow=%d, got %d", tt.externalEndpoint.NumberOfSuccessesInARow, result.NumberOfSuccessesInARow)
-			}
-			if len(result.MaintenanceWindows) != len(tt.externalEndpoint.MaintenanceWindows) {
-				t.Errorf("Expected %d maintenance windows, got %d", len(tt.externalEndpoint.MaintenanceWindows), len(result.MaintenanceWindows))
 			}
 			// Original test assertions
 			if tt.externalEndpoint.Key() != result.Key() {

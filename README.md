@@ -333,7 +333,6 @@ For instance:
 | `external-endpoints[].group`              | Group name. Used to group multiple endpoints together on the dashboard. <br />See [Endpoint groups](#endpoint-groups).            | `""`           |
 | `external-endpoints[].token`              | Bearer token required to push status to.                                                                                          | Required `""`  |
 | `external-endpoints[].alerts`             | List of all alerts for a given endpoint. <br />See [Alerting](#alerting).                                                         | `[]`           |
-| `external-endpoints[].maintenance-windows`| List of all maintenance windows for a given endpoint. <br />See [Maintenance](#maintenance).                                       | `[]`           |
 | `external-endpoints[].heartbeat`          | Heartbeat configuration for monitoring when the external endpoint stops sending updates.                                          | `{}`           |
 | `external-endpoints[].heartbeat.interval` | Expected interval between updates. If no update is received within this interval, alerts will be triggered. Must be at least 10s. | `0` (disabled) |
 
@@ -345,10 +344,6 @@ external-endpoints:
     token: "potato"
     heartbeat:
       interval: 30m  # Automatically create a failure if no update is received within 30 minutes
-    maintenance-windows:
-      - start: "07:30"
-        duration: 40m
-        timezone: "Europe/Berlin"
     alerts:
       - type: discord
         description: "healthcheck failed"
@@ -1898,20 +1893,18 @@ endpoints:
 
 
 #### Configuring Pushover alerts
-| Parameter                             | Description                                                                                                                                                      | Default               |
-|:--------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------|
-| `alerting.pushover`                   | Configuration for alerts of type `pushover`                                                                                                                      | `{}`                  |
-| `alerting.pushover.application-token` | Pushover application token                                                                                                                                       | `""`                  |
-| `alerting.pushover.user-key`          | User or group key                                                                                                                                                | `""`                  |
-| `alerting.pushover.title`             | Fixed title for all messages sent via Pushover                                                                                                                   | `"Gatus: <endpoint>"` |
-| `alerting.pushover.priority`          | Priority of all messages, ranging from -2 (very low) to 2 (emergency)                                                                                            | `0`                   |
-| `alerting.pushover.resolved-priority` | Override the priority of messages on resolved, ranging from -2 (very low) to 2 (emergency)                                                                       | `0`                   |
-| `alerting.pushover.sound`             | Sound of all messages<br />See [sounds](https://pushover.net/api#sounds) for all valid choices.                                                                  | `""`                  |
-| `alerting.pushover.ttl`               | Set the Time-to-live of the message to be automatically deleted from pushover notifications                                                                      | `0`                   |
-| `alerting.pushover.device`            | Device to send the message to (optional)<br/>See [devices](https://pushover.net/api#identifiers) for details                                                     | `""` (all devices)    |
-| `alerting.pushover.retry`             | How often (in seconds) to retry emergency-priority (priority 2) notifications (minimum: 30 seconds)<br/>See [priority](https://pushover.net/api#priority)        | `60`                  |
-| `alerting.pushover.expire`            | How long (in seconds) to continue retrying emergency-priority (priority 2) notifications (maximum: 10800 seconds)<br/>See [priority](https://pushover.net/api#priority) | `3600`                |
-| `alerting.pushover.default-alert`     | Default alert configuration. <br />See [Setting a default alert](#setting-a-default-alert)                                                                       | N/A                   |
+| Parameter                             | Description                                                                                                  | Default               |
+|:--------------------------------------|:-------------------------------------------------------------------------------------------------------------|:----------------------|
+| `alerting.pushover`                   | Configuration for alerts of type `pushover`                                                                  | `{}`                  |
+| `alerting.pushover.application-token` | Pushover application token                                                                                   | `""`                  |
+| `alerting.pushover.user-key`          | User or group key                                                                                            | `""`                  |
+| `alerting.pushover.title`             | Fixed title for all messages sent via Pushover                                                               | `"Gatus: <endpoint>"` |
+| `alerting.pushover.priority`          | Priority of all messages, ranging from -2 (very low) to 2 (emergency)                                        | `0`                   |
+| `alerting.pushover.resolved-priority` | Override the priority of messages on resolved, ranging from -2 (very low) to 2 (emergency)                   | `0`                   |
+| `alerting.pushover.sound`             | Sound of all messages<br />See [sounds](https://pushover.net/api#sounds) for all valid choices.              | `""`                  |
+| `alerting.pushover.ttl`               | Set the Time-to-live of the message to be automatically deleted from pushover notifications                  | `0`                   |
+| `alerting.pushover.device`            | Device to send the message to (optional)<br/>See [devices](https://pushover.net/api#identifiers) for details | `""` (all devices)    |
+| `alerting.pushover.default-alert`     | Default alert configuration. <br />See [Setting a default alert](#setting-a-default-alert)                   | N/A                   |
 
 ```yaml
 alerting:

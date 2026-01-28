@@ -62,11 +62,6 @@ func (externalEndpoint *ExternalEndpoint) ValidateAndSetDefaults() error {
 		// If the heartbeat interval is set (non-0), it must be at least 10 seconds.
 		return ErrExternalEndpointHeartbeatIntervalTooLow
 	}
-	for _, maintenanceWindow := range externalEndpoint.MaintenanceWindows {
-		if err := maintenanceWindow.ValidateAndSetDefaults(); err != nil {
-			return err
-		}
-	}
 	return nil
 }
 
@@ -98,7 +93,6 @@ func (externalEndpoint *ExternalEndpoint) ToEndpoint() *Endpoint {
 		Name:                    externalEndpoint.Name,
 		Group:                   externalEndpoint.Group,
 		Alerts:                  externalEndpoint.Alerts,
-		MaintenanceWindows:      externalEndpoint.MaintenanceWindows,
 		NumberOfFailuresInARow:  externalEndpoint.NumberOfFailuresInARow,
 		NumberOfSuccessesInARow: externalEndpoint.NumberOfSuccessesInARow,
 	}
